@@ -33,8 +33,7 @@ Arduino library for communicating with Modbus slaves over RS232/485 (via RTU pro
   
 */
 #include "ModbusMaster232.h"
-#include <SoftwareSerial.h>  // Modbus RTU pins   D7(13),D8(15)   RX,TX
-SoftwareSerial swSer(13, 15);
+
 
 #include "Arduino.h"
 
@@ -118,14 +117,14 @@ Call once class has been instantiated, typically within setup().
 */
 void ModbusMaster232::begin(void)
 {
-	swSer.begin(9600);
+	Serial.begin(9600);
 }
 
 
 /**
 Initialize class object.
 
-Sets up the swSer port using specified baud rate.
+Sets up the serial port using specified baud rate.
 Call once class has been instantiated, typically within setup().
 
 @overload ModbusMaster::begin(uint16_t u16BaudRate)
@@ -139,7 +138,7 @@ void ModbusMaster232::begin(unsigned long BaudRate )
 	u16TransmitBufferLength = 0;
 
 	delay(100);  
-	swSer.begin(BaudRate);
+	Serial.begin(BaudRate);
 }
 
 
@@ -732,7 +731,7 @@ uint8_t ModbusMaster232::ModbusMasterTransaction(uint8_t u8MBFunction)
   // transmit request
   for (i = 0; i < u8ModbusADUSize; i++)
   {
-		swSer.print(char(u8ModbusADU[i]));
+		Serial.print(char(u8ModbusADU[i]));
   }
 
   delay(2);
@@ -746,7 +745,7 @@ uint8_t ModbusMaster232::ModbusMasterTransaction(uint8_t u8MBFunction)
 		long cont = 0;
 		
 		while((val != _u8MBSlave) && (cont < 100)) {
-			val = swSer.read();
+			val = Serial.read();
 			delay(5);
 			cont ++;
 		}
@@ -756,9 +755,9 @@ uint8_t ModbusMaster232::ModbusMasterTransaction(uint8_t u8MBFunction)
   
   while (u8BytesLeft && !u8MBStatus)
   {
-  if  (swSer.available())
+  if  (Serial.available())
   {    
-		u8ModbusADU[u8ModbusADUSize] = swSer.read();
+		u8ModbusADU[u8ModbusADUSize] = Serial.read();
 		u8BytesLeft--;
 		u8ModbusADUSize ++;
 		 

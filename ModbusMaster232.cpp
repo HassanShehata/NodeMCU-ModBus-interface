@@ -5,7 +5,7 @@ Arduino library for communicating with Modbus slaves over RS232/485 (via RTU pro
 /*
 
   ModbusMaster.cpp - Arduino library for communicating with Modbus slaves
-  over RS232/485 (via RTU protocol).
+  over RS232/485(via RTU protocol).
   
   This file is part of ModbusMaster.
   
